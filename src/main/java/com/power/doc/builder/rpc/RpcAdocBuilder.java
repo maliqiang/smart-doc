@@ -27,6 +27,7 @@ import com.power.doc.model.ApiConfig;
 import com.power.doc.model.rpc.RpcApiDoc;
 import com.power.doc.template.RpcDocBuildTemplate;
 import com.thoughtworks.qdox.JavaProjectBuilder;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class RpcAdocBuilder {
 
     private static final String API_EXTENSION = "RpcApi.adoc";
 
-    private static final String INDEX_DOC = "rpc-index.adoc";
+    private static String INDEX_DOC = "rpc-index.adoc";
 
     /**
      * build adoc
@@ -65,6 +66,9 @@ public class RpcAdocBuilder {
         ProjectDocConfigBuilder configBuilder = new ProjectDocConfigBuilder(config, javaProjectBuilder);
         RpcDocBuildTemplate docBuildTemplate = new RpcDocBuildTemplate();
         List<RpcApiDoc> apiDocList = docBuildTemplate.getApiData(configBuilder);
+        if(StringUtils.isNotEmpty(config.getIndexFileName())){
+            INDEX_DOC = config.getIndexFileName();
+        }
         if (config.isAllInOne()) {
             builderTemplate.buildAllInOne(apiDocList, config, javaProjectBuilder, RPC_ALL_IN_ONE_ADOC_TPL, INDEX_DOC);
         } else {

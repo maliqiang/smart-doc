@@ -63,6 +63,10 @@ public class DocUtil {
         fieldValue.put("author-string", faker.book().author());
         fieldValue.put("url-string", faker.internet().url());
         fieldValue.put("username-string", faker.name().username());
+        fieldValue.put("pagesize-int", "1");
+        fieldValue.put("pagesize-integer", "1");
+        fieldValue.put("pagenum-int", "1");
+        fieldValue.put("pagenum-integer", "1");
         fieldValue.put("page-int", "1");
         fieldValue.put("page-integer", "1");
         fieldValue.put("age-int", String.valueOf(RandomUtil.randomInt(0, 70)));

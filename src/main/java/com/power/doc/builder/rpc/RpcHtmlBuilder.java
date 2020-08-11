@@ -36,6 +36,7 @@ import com.power.doc.template.RpcDocBuildTemplate;
 import com.power.doc.utils.BeetlTemplateUtil;
 import com.power.doc.utils.MarkDownUtil;
 import com.thoughtworks.qdox.JavaProjectBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.beetl.core.Template;
 
 import java.util.List;
@@ -77,6 +78,9 @@ public class RpcHtmlBuilder {
         ProjectDocConfigBuilder configBuilder = new ProjectDocConfigBuilder(config, javaProjectBuilder);
         RpcDocBuildTemplate docBuildTemplate = new RpcDocBuildTemplate();
         List<RpcApiDoc> apiDocList = docBuildTemplate.getApiData(configBuilder);
+        if (StringUtils.isNotEmpty(config.getIndexFileName())) {
+            INDEX_HTML = config.getIndexFileName();
+        }
         if (config.isAllInOne()) {
             Template indexCssTemplate = BeetlTemplateUtil.getByName(ALL_IN_ONE_CSS);
             FileUtil.nioWriteFile(indexCssTemplate.render(), config.getOutPath() + FILE_SEPARATOR + ALL_IN_ONE_CSS);
@@ -148,10 +152,10 @@ public class RpcHtmlBuilder {
             apiTemplate.binding(TemplateVariable.DESC.getVariable(), rpcDoc.getDesc());
             apiTemplate.binding(TemplateVariable.NAME.getVariable(), rpcDoc.getName());
             apiTemplate.binding(TemplateVariable.LIST.getVariable(), rpcDoc.getList());
-            apiTemplate.binding(TemplateVariable.PROTOCOL.getVariable(),rpcDoc.getProtocol());
-            apiTemplate.binding(TemplateVariable.AUTHOR.getVariable(),rpcDoc.getAuthor());
-            apiTemplate.binding(TemplateVariable.VERSION.getVariable(),rpcDoc.getVersion());
-            apiTemplate.binding(TemplateVariable.URI.getVariable(),rpcDoc.getUri());
+            apiTemplate.binding(TemplateVariable.PROTOCOL.getVariable(), rpcDoc.getProtocol());
+            apiTemplate.binding(TemplateVariable.AUTHOR.getVariable(), rpcDoc.getAuthor());
+            apiTemplate.binding(TemplateVariable.VERSION.getVariable(), rpcDoc.getVersion());
+            apiTemplate.binding(TemplateVariable.URI.getVariable(), rpcDoc.getUri());
 
             String html = MarkDownUtil.toHtml(apiTemplate.render());
             htmlApiDoc = BeetlTemplateUtil.getByName(HTML_API_DOC_TPL);

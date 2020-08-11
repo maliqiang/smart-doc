@@ -27,6 +27,7 @@ import com.power.doc.model.ApiDoc;
 import com.power.doc.template.IDocBuildTemplate;
 import com.power.doc.template.SpringBootDocBuildTemplate;
 import com.thoughtworks.qdox.JavaProjectBuilder;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class AdocDocBuilder {
 
     private static final String API_EXTENSION = "Api.adoc";
 
-    private static final String INDEX_DOC = "index.adoc";
+    private static  String INDEX_DOC = "index.adoc";
 
     /**
      * build adoc
@@ -66,6 +67,9 @@ public class AdocDocBuilder {
         ProjectDocConfigBuilder configBuilder = new ProjectDocConfigBuilder(config, javaProjectBuilder);
         IDocBuildTemplate docBuildTemplate = new SpringBootDocBuildTemplate();
         List<ApiDoc> apiDocList = docBuildTemplate.getApiData(configBuilder);
+        if(StringUtils.isNotEmpty(config.getIndexFileName())){
+            INDEX_DOC = config.getIndexFileName();
+        }
         if (config.isAllInOne()) {
             builderTemplate.buildAllInOne(apiDocList, config, javaProjectBuilder, ALL_IN_ONE_ADOC_TPL, INDEX_DOC);
         } else {
