@@ -78,8 +78,8 @@ public class RpcHtmlBuilder {
         ProjectDocConfigBuilder configBuilder = new ProjectDocConfigBuilder(config, javaProjectBuilder);
         RpcDocBuildTemplate docBuildTemplate = new RpcDocBuildTemplate();
         List<RpcApiDoc> apiDocList = docBuildTemplate.getApiData(configBuilder);
-        if (StringUtils.isNotEmpty(config.getIndexFileName())) {
-            INDEX_HTML = config.getIndexFileName();
+        if (StringUtils.isNotEmpty(config.getAllInOneDocFileName())) {
+            INDEX_HTML = config.getAllInOneDocFileName();
         }
         if (config.isAllInOne()) {
             Template indexCssTemplate = BeetlTemplateUtil.getByName(ALL_IN_ONE_CSS);
