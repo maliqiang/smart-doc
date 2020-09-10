@@ -27,6 +27,7 @@ import com.power.doc.constants.DocLanguage;
 import com.power.doc.model.rpc.RpcApiDependency;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -45,7 +46,7 @@ public class ApiConfig {
     /**
      * Set comments check mode
      */
-    private Boolean isStrict = Boolean.FALSE;
+    private boolean isStrict;
 
     /**
      * Merge all api doc into one document
@@ -188,47 +189,57 @@ public class ApiConfig {
 
     /**
      * is inline enum field comment
+     *
      * @since 1.8.8
      */
     private Boolean inlineEnum = Boolean.FALSE;
 
     /**
      * rpc consumer config example
+     *
      * @since 1.8.7
      */
     private String rpcConsumerConfig;
 
     /**
      * recursion limit
+     *
      * @since 1.8.8
      */
     private int recursionLimit = 7;
 
     /**
      * request example
+     *
      * @since 1.9.0
      */
     private boolean requestExample = Boolean.TRUE;
 
     /**
      * response example
+     *
      * @since 1.9.0
      */
     private boolean responseExample = Boolean.TRUE;
-  
-     /**
-     * name of index
+
+    /**
+     * custom setting api document name
+     *
+     * @since 1.9.0
      */
-    private String indexFileName;
+    private String allInOneDocFileName;
 
+    /**
+     * convert param data to tree
+     */
+    private boolean paramsDataToTree;
 
-    public String getIndexFileName() {
-        return indexFileName;
-    }
+    /**
+     * request ignore param
+     * @return
+     */
+    private List<String> ignoreRequestParams;
 
-    public void setIndexFileName(String indexFileName) {
-        this.indexFileName = indexFileName;
-    }
 
     public String getServerUrl() {
         return serverUrl;
@@ -238,11 +249,11 @@ public class ApiConfig {
         this.serverUrl = serverUrl;
     }
 
-    public Boolean getStrict() {
+    public boolean isStrict() {
         return isStrict;
     }
 
-    public void setStrict(Boolean strict) {
+    public void setStrict(boolean strict) {
         isStrict = strict;
     }
 
@@ -347,6 +358,9 @@ public class ApiConfig {
     }
 
     public ApiDataDictionary getDataDictionary(String enumClassSimpleName) {
+        if (Objects.isNull(this.dataDictionaries)) {
+            return null;
+        }
         return this.dataDictionaries.stream().filter((apiDataDictionary ->
                 enumClassSimpleName.equalsIgnoreCase(apiDataDictionary.getEnumClassName())))
                 .findFirst().orElse(new ApiDataDictionary());
@@ -486,5 +500,29 @@ public class ApiConfig {
 
     public void setResponseExample(boolean responseExample) {
         this.responseExample = responseExample;
+    }
+
+    public String getAllInOneDocFileName() {
+        return allInOneDocFileName;
+    }
+
+    public void setAllInOneDocFileName(String allInOneDocFileName) {
+        this.allInOneDocFileName = allInOneDocFileName;
+    }
+
+    public boolean isParamsDataToTree() {
+        return paramsDataToTree;
+    }
+
+    public void setParamsDataToTree(boolean paramsDataToTree) {
+        this.paramsDataToTree = paramsDataToTree;
+    }
+
+    public List<String> getIgnoreRequestParams() {
+        return ignoreRequestParams;
+    }
+
+    public void setIgnoreRequestParams(List<String> ignoreRequestParams) {
+        this.ignoreRequestParams = ignoreRequestParams;
     }
 }

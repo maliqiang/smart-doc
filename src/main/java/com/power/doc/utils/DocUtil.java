@@ -284,8 +284,6 @@ public class DocUtil {
         switch (method) {
             case "RequestMethod.POST":
                 return "POST";
-            case "RequestMethod.GET":
-                return "GET";
             case "RequestMethod.PUT":
                 return "PUT";
             case "RequestMethod.DELETE":
@@ -463,5 +461,40 @@ public class DocUtil {
             default:
                 return false;
         }
+    }
+
+    public static String javaTypeToOpenApiTypeConvert(String type){
+        switch (type) {
+            case "int32":
+            case "int16":
+                return "integer";
+            case "int64":
+                return "long";
+            case "double":
+            case "float":
+            case "number":
+                return "number";
+            case "boolean":
+                return "boolean";
+            case "string":
+                return "string";
+            default:
+                return "object"; //array object file
+        }
+    }
+
+    /**
+     * Gets escape and clean comment.
+     *
+     * @param comment the comment
+     * @return the escape and clean comment
+     */
+    public static String getEscapeAndCleanComment(String comment) {
+        if (StringUtil.isEmpty(comment)) {
+            return "";
+        }
+        return comment.replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll(System.lineSeparator(), "");
     }
 }

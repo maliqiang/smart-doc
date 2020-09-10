@@ -22,6 +22,9 @@
  */
 package com.power.doc.utils;
 
+import com.power.common.util.CollectionUtil;
+
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -107,23 +110,14 @@ public class JavaClassValidateUtil {
     public static boolean isCollection(String type) {
         switch (type) {
             case "java.util.List":
-                return true;
             case "java.util.LinkedList":
-                return true;
             case "java.util.ArrayList":
-                return true;
             case "java.util.Set":
-                return true;
             case "java.util.TreeSet":
-                return true;
             case "java.util.HashSet":
-                return true;
             case "java.util.SortedSet":
-                return true;
             case "java.util.Collection":
-                return true;
             case "java.util.ArrayDeque":
-                return true;
             case "java.util.PriorityQueue":
                 return true;
             default:
@@ -140,21 +134,13 @@ public class JavaClassValidateUtil {
     public static boolean isMap(String type) {
         switch (type) {
             case "java.util.Map":
-                return true;
             case "java.util.SortedMap":
-                return true;
             case "java.util.TreeMap":
-                return true;
             case "java.util.LinkedHashMap":
-                return true;
             case "java.util.HashMap":
-                return true;
             case "java.util.concurrent.ConcurrentHashMap":
-                return true;
             case "java.util.concurrent.ConcurrentMap":
-                return true;
             case "java.util.Properties":
-                return true;
             case "java.util.Hashtable":
                 return true;
             default:
@@ -225,9 +211,13 @@ public class JavaClassValidateUtil {
      * ignore param of spring mvc
      *
      * @param paramType param type name
+     * @param ignoreParams ignore param list
      * @return boolean
      */
-    public static boolean isMvcIgnoreParams(String paramType) {
+    public static boolean isMvcIgnoreParams(String paramType, List<String> ignoreParams) {
+        if (CollectionUtil.isNotEmpty(ignoreParams) && ignoreParams.contains(paramType)) {
+            return true;
+        }
         switch (paramType) {
             case "org.springframework.ui.Model":
             case "org.springframework.ui.ModelMap":
@@ -238,6 +228,7 @@ public class JavaClassValidateUtil {
             case "javax.servlet.http.HttpSession":
             case "javax.servlet.http.HttpServletResponse":
             case "org.springframework.web.reactive.function.server.ServerRequest":
+            case "org.springframework.web.multipart.MultipartHttpServletRequest":
                 return true;
             default:
                 return false;
@@ -253,7 +244,6 @@ public class JavaClassValidateUtil {
     public static boolean isIgnoreFieldTypes(String typeName) {
         switch (typeName) {
             case "org.slf4j.Logger":
-                return true;
             case "org.apache.ibatis.logging.Log":
                 return true;
             default:

@@ -201,6 +201,10 @@ public class JavaClassUtil {
             int index = className.lastIndexOf(".");
             className = className.substring(index + 1, className.length());
         }
+        if (className.contains("[")) {
+            int index = className.indexOf("[");
+            className = className.substring(0, index);
+        }
         return className;
     }
 
@@ -266,6 +270,11 @@ public class JavaClassUtil {
         List<String> validates = DocValidatorAnnotationEnum.listValidatorAnnotations();
         List<AnnotationValue> annotationValueList = getAnnotationValues(validates, javaAnnotation);
         addGroupClass(annotationValueList, javaClassList);
+        String simpleAnnotationName = javaAnnotation.getType().getValue();
+        // add default group
+        if (javaClassList.size() == 0 && JavaClassValidateUtil.isJSR303Required(simpleAnnotationName)) {
+            javaClassList.add("javax.validation.groups.Default");
+        }
         return javaClassList;
     }
 
@@ -305,6 +314,7 @@ public class JavaClassUtil {
 
     /**
      * Get Map of final field and value
+     *
      * @param clazz Java class
      * @return Map
      * @throws IllegalAccessException IllegalAccessException
